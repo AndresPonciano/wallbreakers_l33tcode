@@ -1,6 +1,5 @@
 import threading
 
-
 def merge(list1, list2):
         # print("merging")
         # print(list1, list2)
@@ -33,21 +32,15 @@ def merge(list1, list2):
         return toReturn
         
 def mergeSort(arr):
-        # print("---")
         if len(arr) <= 1:
                 return arr
 
         mid = len(arr)//2
         left = arr[:mid]
         right = arr[mid:]
-        # print(left)
-        # print(right)
 
         part1 = mergeSort(left)
         part2 = mergeSort(right)
-
-        print("merging these two:")
-        print(part1, part2)
 
         i = 0
         j = 0
@@ -74,37 +67,39 @@ def mergeSort(arr):
         return arr
         # return merge(part1, part2)
 
-def handler(outList):
-        return []
-
-def doStuffWith(keyword):
-        # result = []
-        input2 = [38, 27, 43, 3, 9, 82, 10]
-        thread = threading.Thread(target=mergeSort, args=(input2, ))
-        thread.start()
-        return(thread, input2)
-
-
 if __name__ == "__main__":
-        # input2 = [83, 86, 77, 15, 93, 35, 86, 92, 49, 21, 
-        # 62, 27, 90, 59, 63, 26, 40, 26, 72, 36]
-####################################################
-        input2 = [38, 27, 43, 3, 9, 82, 10]
-        # input2 = [38, 27, 43, 3, 9, 82]
-        # threads = [doStuffWith(k) for k in range(4)]
+        input2 = [83, 86, 77, 15, 93, 35, 86, 92, 49, 21, 
+        62, 27, 90, 59, 63, 26, 40, 26, 72, 36]
 
-        # for t in threads:
-        #         t[0].start()
+        div = len(input2)//4
+        arr1 = input2[0:div]
+        arr2 = input2[div:div*2]
+        arr3 = input2[div*2:div*3]
+        arr4 = input2[div*3:div*4]
+        arrRest = input2[div*4:]
 
-        # for t in threads:
-                # t[0].join()
-                # ret = t[1]
-        # print(threads)
+        thread1 = threading.Thread(target=mergeSort, args=(arr1, ))
+        thread2 = threading.Thread(target=mergeSort, args=(arr2, ))
+        thread3 = threading.Thread(target=mergeSort, args=(arr3, ))
+        thread4 = threading.Thread(target=mergeSort, args=(arr4, ))
+        thread1.start()
+        thread2.start()
+        thread3.start()
+        thread4.start()
+        thread1.join()
+        thread2.join()
+        thread3.join()
+        thread4.join()
 
-        print("input is: ", input2)
-####################################################
-        result = mergeSort(input2)
+        arr1_1 = merge(arr1, arr2)
+        arr2_1 = merge(arr3, arr4)
+        arr3_1 = merge(arr1_1, arr2_1)
+        mergeSort(arrRest)
+        final = merge(arr3_1, arrRest)
 
-        print(result)
-        print("input is: ", input2)
+        print(input2)
+        print(final)
+        # print("input is: ", input2)
+        # mergeSort(input2)
+        # print("input is: ", input2)
     
